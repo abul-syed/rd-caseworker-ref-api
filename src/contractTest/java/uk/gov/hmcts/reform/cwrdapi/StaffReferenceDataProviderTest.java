@@ -232,7 +232,7 @@ public class StaffReferenceDataProviderTest {
         caseWorkerWorkArea.setCaseWorkerProfile(caseWorkerProfile);
         caseWorkerProfile.setCaseWorkerWorkAreas(List.of(caseWorkerWorkArea));
         PageImpl<CaseWorkerProfile> page = new PageImpl<>(List.of(caseWorkerProfile));
-        doReturn(page).when(caseWorkerProfileRepo).findByServiceCodeIn(anySet(), any());
+        doReturn(page).when(caseWorkerProfileRepo).findByServiceCodeInNative(anySet(), any());
     }
 
     @State({"A list of staff ref data Service skills"})

@@ -104,7 +104,7 @@ public class RequestUtils {
         return PageRequest.of(Objects.isNull(pageNumber) ? 0 : pageNumber,
                 Objects.isNull(pageSize) ? configPageSize : pageSize,
                 StringUtils.isBlank(sortDirection) ? Sort.Direction.ASC : Sort.Direction.fromString(sortDirection),
-                finalSortColumn);
+                convertCamelToSnakeCase(finalSortColumn));
     }
 
     private static boolean isValidSortColumn(String finalSortColumn,
@@ -263,6 +263,11 @@ public class RequestUtils {
 
         return result;
     }
+
+    public static String convertCamelToSnakeCase(String camelCase) {
+        return camelCase.replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase();
+    }
+
 }
 
 
