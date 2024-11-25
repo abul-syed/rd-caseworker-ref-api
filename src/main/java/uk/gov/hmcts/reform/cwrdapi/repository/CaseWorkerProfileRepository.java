@@ -37,6 +37,13 @@ public interface CaseWorkerProfileRepository extends JpaRepository<CaseWorkerPro
             where wa.serviceCode IN :serviceCode""")
     Page<CaseWorkerProfile> findByServiceCodeIn(Set<String> serviceCode, Pageable pageable);
 
+    @Query(value = """
+            select cw.* from dbrdcaseworker.case_worker_profile cw 
+            join dbrdcaseworker.case_worker_work_area wa ON cw.case_worker_id = wa.case_worker_id 
+            where wa.service_code IN :serviceCode""",
+            nativeQuery = true)
+    Page<CaseWorkerProfile> findByServiceCodeInNative(Set<String> serviceCode, Pageable pageable);
+
     @Query(value = "Select distinct cwp from case_worker_profile cwp "
             + "join case_worker_work_area cwa on cwp.caseWorkerId=cwa.caseWorkerId "
             + "join case_worker_role cwr on cwr.caseWorkerId=cwp.caseWorkerId "

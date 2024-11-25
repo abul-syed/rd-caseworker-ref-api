@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.data.domain.PageRequest;
 import uk.gov.hmcts.reform.cwrdapi.controllers.advice.InvalidRequestException;
 import uk.gov.hmcts.reform.cwrdapi.controllers.request.CaseWorkersProfileCreationRequest;
@@ -15,6 +17,7 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static uk.gov.hmcts.reform.cwrdapi.util.RequestUtils.convertCamelToSnakeCase;
 import static uk.gov.hmcts.reform.cwrdapi.util.RequestUtils.removeEmptySpaces;
 import static uk.gov.hmcts.reform.cwrdapi.util.RequestUtils.trimIdamRoles;
 import static uk.gov.hmcts.reform.cwrdapi.util.RequestUtils.validateAndBuildPagination;
@@ -77,7 +80,7 @@ class RequestUtilsTest {
         assertEquals(0, pageRequest.getPageNumber());
         assertEquals(20, pageRequest.getPageSize());
         assertTrue(pageRequest.getSort().get().anyMatch(i -> i.getDirection().isAscending()));
-        assertTrue(pageRequest.getSort().get().anyMatch(i -> i.getProperty().equals("caseWorkerId")));
+        assertTrue(pageRequest.getSort().get().anyMatch(i -> i.getProperty().equals("case_worker_id")));
     }
 
     @Test
@@ -148,4 +151,25 @@ class RequestUtilsTest {
         assertThat(validateServiceCode(" ")).isFalse();
         assertThat(validateServiceCode("BBA3")).isTrue();
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "caseWorkerId,case_worker_id",
+            "firstName,first_name",
+            "lastName,last_name",
+            "emailId,email_id",
+            "userTypeId,user_type_id",
+            "region,region",
+            "regionId,region_id",
+            "suspended,suspended",
+            "caseAllocator,case_allocator",
+            "taskSupervisor,task_supervisor",
+            "createdDate,created_date",
+            "lastUpdate,last_update",
+            "userAdmin,user_admin"
+    })
+    void testConvertCamelToSnakeCase(String input, String expected) {
+        assertEquals(convertCamelToSnakeCase(input), expected);
+    }
+
 }

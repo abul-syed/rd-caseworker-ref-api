@@ -391,7 +391,7 @@ public class CaseWorkerServiceImpl implements CaseWorkerService {
                                 .collect(Collectors.toMap(LrdOrgInfoServiceResponse::getServiceCode,
                                         LrdOrgInfoServiceResponse::getCcdServiceName));
 
-                Page<CaseWorkerProfile> staffProfilePage = caseWorkerProfileRepo.findByServiceCodeIn(
+                Page<CaseWorkerProfile> staffProfilePage = caseWorkerProfileRepo.findByServiceCodeInNative(
                         serviceNameToCodeMapping.keySet(), pageRequest);
 
                 log.info("{}:: No of Pages {} No of Records returned from DB {}", loggingComponentName,

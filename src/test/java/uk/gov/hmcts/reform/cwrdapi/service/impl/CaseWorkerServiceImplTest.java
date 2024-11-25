@@ -919,7 +919,7 @@ class CaseWorkerServiceImplTest {
                 20, "id", CaseWorkerProfile.class);
 
         PageImpl<CaseWorkerProfile> page = new PageImpl<>(Collections.singletonList(caseWorkerProfile));
-        when(caseWorkerProfileRepository.findByServiceCodeIn(Set.of("BAA1"), pageRequest))
+        when(caseWorkerProfileRepository.findByServiceCodeInNative(Set.of("BAA1"), pageRequest))
                 .thenReturn(page);
         ResponseEntity<Object> responseEntity = caseWorkerServiceImpl
                 .fetchStaffProfilesForRoleRefresh("cmc", pageRequest);
@@ -962,7 +962,7 @@ class CaseWorkerServiceImplTest {
                 20, "id", CaseWorkerProfile.class);
 
         PageImpl<CaseWorkerProfile> page = new PageImpl<>(Collections.emptyList());
-        when(caseWorkerProfileRepository.findByServiceCodeIn(Set.of("BAA1"), pageRequest))
+        when(caseWorkerProfileRepository.findByServiceCodeInNative(Set.of("BAA1"), pageRequest))
                 .thenReturn(page);
         Assertions.assertThrows(ResourceNotFoundException.class, () ->
                 caseWorkerServiceImpl
